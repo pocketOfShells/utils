@@ -44,11 +44,10 @@ install_plugins() {
   log "Installing plugins (headless)"
   : "${TERM:=xterm-256color}"; export TERM
 
-  # Only touch this users sessions
   local started_server=0
   if ! tmux info >/dev/null 2>&1; then started_server=1; fi
 
-  # Install plugins for detached sessions
+  # Install plugins
   tmux new-session -d -s __tpm_setup >/dev/null 2>&1 || true
   "$TPM_DIR/scripts/install_plugins.sh"
   tmux kill-session -t __tpm_setup >/dev/null 2>&1 || true
@@ -64,7 +63,7 @@ main() {
   fetch_conf
   install_tpm
   install_plugins
-  log "Done. Run 'tmux' — plugins and theme are ready."
+  log "[+] Done. Run tmux or reload config and install plugins with 'Ctrl, b + I'."
 }
 
 main "$@"
